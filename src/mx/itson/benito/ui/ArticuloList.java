@@ -6,19 +6,22 @@ package mx.itson.benito.ui;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import mx.itson.benito.entidades.Articulo;
 import mx.itson.benito.entidades.Proveedor;
+import mx.itson.benito.persistencia.ArticuloDAO;
 import mx.itson.benito.persistencia.ProveedorDAO;
+
 
 /**
  *
  * @author carlo
  */
-public class ProveedorList extends javax.swing.JFrame {
+public class ArticuloList extends javax.swing.JFrame {
 
     /**
-     * Creates new form ProveedorList
+     * Creates new form ArticuloList
      */
-    public ProveedorList() {
+    public ArticuloList() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -33,7 +36,7 @@ public class ProveedorList extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblProveedores = new javax.swing.JTable();
+        tblArticulos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -48,25 +51,25 @@ public class ProveedorList extends javax.swing.JFrame {
             }
         });
 
-        tblProveedores.setModel(new javax.swing.table.DefaultTableModel(
+        tblArticulos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Clave", "Nombre", "Direccion", "Telefono", "Correo", "Contacto"
+                "ID", "Clave", "Nombre", "Diescripcion", "Precio", "Provedor"
             }
         ));
-        jScrollPane1.setViewportView(tblProveedores);
+        jScrollPane1.setViewportView(tblArticulos);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        jLabel1.setText("PROVEEDORES");
+        jLabel1.setText("Articulos");
 
         jMenu1.setText("Opciones");
 
-        btnAgregar.setText("Agregar proveedor");
+        btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
@@ -98,55 +101,57 @@ public class ProveedorList extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(457, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 765, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(336, 336, 336)
                 .addComponent(jLabel1)
-                .addGap(457, 457, 457))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(29, 29, 29)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                .addGap(23, 23, 23))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(0));
+        tblArticulos.removeColumn(tblArticulos.getColumnModel().getColumn(0));
         cargarTable();
     }//GEN-LAST:event_formWindowOpened
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-       int renglon = tblProveedores.getSelectedRow();
-       if(renglon != -1){
-       int idProveedor = Integer.parseInt(tblProveedores.getModel().getValueAt(renglon, 0).toString());
-       ProveedorForm form = new ProveedorForm(this, true, idProveedor );
-       
-       form.setVisible(true);
-       cargarTable(); 
-       }else{
-           JOptionPane.showMessageDialog(this, "Ocurrió un error, seleccione un conductor", "Error al seleccionar", JOptionPane.ERROR_MESSAGE);
-       }
-    }//GEN-LAST:event_btnEditarActionPerformed
-
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        ProveedorForm form = new ProveedorForm(this, true, 0);
+        ArticuloForm form = new ArticuloForm(this, true, 0);
         form.setVisible(true);
         cargarTable();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+       int renglon = tblArticulos.getSelectedRow();
+       if(renglon != -1){
+       int idArticulo = Integer.parseInt(tblArticulos.getModel().getValueAt(renglon, 0).toString());
+       ArticuloForm form = new ArticuloForm(this, true, idArticulo );
+       
+       form.setVisible(true);
+       cargarTable(); 
+       }else{
+           JOptionPane.showMessageDialog(this, "Ocurrió un error, seleccione un articulo", "Error al seleccionar", JOptionPane.ERROR_MESSAGE);
+       }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        int renglon = tblProveedores.getSelectedRow();
+        int renglon = tblArticulos.getSelectedRow();
          if(renglon != -1){
-            int resultado = JOptionPane.showConfirmDialog(this, "¿Esta seguro que quiere eliminar a este proveedor?", "Confirmacion", JOptionPane.YES_NO_OPTION);
+            int resultado = JOptionPane.showConfirmDialog(this, "¿Esta seguro que quiere eliminar a este articulo?", "Confirmacion", JOptionPane.YES_NO_OPTION);
             if(resultado == JOptionPane.YES_OPTION){
-                int idProveedor = Integer.parseInt(tblProveedores.getModel().getValueAt(renglon, 0).toString());        
+                int idProveedor = Integer.parseInt(tblArticulos.getModel().getValueAt(renglon, 0).toString());        
                 if(ProveedorDAO.eliminar(idProveedor)){
                     JOptionPane.showMessageDialog(this, "El registro se elimino correctamente", "Registro eliminado", JOptionPane.INFORMATION_MESSAGE);          
                 }else {
@@ -160,11 +165,11 @@ public class ProveedorList extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void cargarTable(){
-        ProveedorDAO proveedores = new ProveedorDAO();
-        DefaultTableModel modelo = (DefaultTableModel) tblProveedores.getModel();
+        ArticuloDAO articulos = new ArticuloDAO();
+        DefaultTableModel modelo = (DefaultTableModel) tblArticulos.getModel();
         modelo.setRowCount(0);
-        for(Proveedor p : proveedores.obtenerTodos()){
-            modelo.addRow(new Object[] {p.getId(), p.getClave(), p.getNombre(), p.getDireccion(), p.getTelefono(), p.getCorreo(), p.getContacto()});
+        for(Articulo a : articulos.obtenerTodos()){
+            modelo.addRow(new Object[] {a.getId(), a.getClave(), a.getNombre(), a.getDescripcion(), a.getPrecio(), a.getProveedor()});
         }
     }
     /**
@@ -184,20 +189,20 @@ public class ProveedorList extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProveedorList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ArticuloList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProveedorList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ArticuloList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProveedorList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ArticuloList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProveedorList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ArticuloList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProveedorList().setVisible(true);
+                new ArticuloList().setVisible(true);
             }
         });
     }
@@ -210,6 +215,6 @@ public class ProveedorList extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblProveedores;
+    private javax.swing.JTable tblArticulos;
     // End of variables declaration//GEN-END:variables
 }
