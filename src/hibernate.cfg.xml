@@ -12,7 +12,7 @@
             com.mysql.cj.jdbc.Driver
         </property>
         <property name="hibernate.connection.url">
-            jdbc:mysql://localhost/multasdb
+            jdbc:mysql://localhost/ordencompra
         </property>
         <property name="hibernate.connection.username">
             root
@@ -20,9 +20,9 @@
         <property name="hibernate.connection.password">
             carlos21.2
         </property>
-        <mapping class="mx.itson.philadelphia.entidades.Conductor"/>
-        <mapping class="mx.itson.philadelphia.entidades.Oficial"/>
-        <mapping class="mx.itson.philadelphia.entidades.Multa"/>        
+        <mapping class="mx.itson.benito.entidades.Proveedor"/>
+        <mapping class="mx.itson.benito.entidades.Articulo"/>
+        <mapping class="mx.itson.benito.entidades.OrdenCompra"/>        
     </session-factory>
 </hibernate-configuration>
 
