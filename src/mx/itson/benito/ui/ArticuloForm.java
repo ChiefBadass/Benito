@@ -5,6 +5,7 @@
 package mx.itson.benito.ui;
 
 import java.util.List;
+import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 import mx.itson.benito.entidades.Articulo;
 import mx.itson.benito.entidades.Proveedor;
@@ -38,7 +39,7 @@ public class ArticuloForm extends javax.swing.JDialog {
             txtNombre.setText(articulo.getNombre());
             txtDescripcion.setText(articulo.getDescripcion());
             txtPrecio.setText(String.valueOf(articulo.getPrecio()));
-            cbxProveedor.getModel().setSelectedItem(articulo.getProveedor());
+            
             
         }
     }
@@ -246,18 +247,16 @@ public class ArticuloForm extends javax.swing.JDialog {
         String clave = txtClave.getText();
         String nombre = txtNombre.getText();
         String descripcion = txtDescripcion.getText();
-        
+        Proveedor proveedor = (Proveedor) cbxProveedor.getSelectedItem();
 
         if(contador == 0){
             if(validarCasilla(clave) & validarCasilla(nombre) & validarCasilla(descripcion)& validarNumerosDouble(txtPrecio.getText())){
-                if(this.id == 0){
-                    double precio = Double.parseDouble(txtPrecio.getText());
-                    Proveedor proveedor = (Proveedor) cbxProveedor.getSelectedItem();
+                double precio = Double.parseDouble(txtPrecio.getText());
+                if(this.id == 0){                            
                     boolean resultado = ArticuloDAO.guardar(clave, nombre, descripcion, precio, proveedor);
                     resultado(resultado);
-                }else{
-                    double precio = Double.parseDouble(txtPrecio.getText());
-                    boolean resultado = ArticuloDAO.editar(id, clave, nombre, descripcion, precio);
+                }else{                   
+                    boolean resultado = ArticuloDAO.editar(id, clave, nombre, descripcion, precio, proveedor);
                     resultado(resultado);
                 }
             }

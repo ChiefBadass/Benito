@@ -79,12 +79,12 @@ public class ProveedorDAO {
 
         Proveedor proveedor = obtenerPorId(id);
         if(proveedor != null){
-            proveedor.getClave();
-            proveedor.getNombre();
-            proveedor.getDireccion();
-            proveedor.getTelefono();
-            proveedor.getCorreo();
-            proveedor.getContacto();
+            proveedor.setClave(clave);
+            proveedor.setNombre(nombre);
+            proveedor.setDireccion(direccion);
+            proveedor.setTelefono(telefono);
+            proveedor.setCorreo(correo);
+            proveedor.setContacto(contacto);
             session.saveOrUpdate(proveedor);
             session.getTransaction().commit();
             resultado = true;

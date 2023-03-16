@@ -42,7 +42,7 @@ public class Articulo {
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
     }
-
+    
     /**
      * @return the clave
      */

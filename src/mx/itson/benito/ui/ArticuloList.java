@@ -7,7 +7,6 @@ package mx.itson.benito.ui;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mx.itson.benito.entidades.Articulo;
-import mx.itson.benito.entidades.Proveedor;
 import mx.itson.benito.persistencia.ArticuloDAO;
 import mx.itson.benito.persistencia.ProveedorDAO;
 
@@ -59,7 +58,7 @@ public class ArticuloList extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Clave", "Nombre", "Diescripcion", "Precio", "Provedor"
+                "ID", "Clave", "Nombre", "Diescripcion", "Precio", "Proveedor"
             }
         ));
         jScrollPane1.setViewportView(tblArticulos);

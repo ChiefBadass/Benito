@@ -45,7 +45,7 @@ public class ArticuloDAO {
         a.setClave(clave);
         a.setNombre(nombre);
         a.setDescripcion(descripcion);
-        a.setPrecio(precio);
+        a.setPrecio(precio); 
         a.setProveedor(proveedor);
         session.save(a);
         
@@ -71,7 +71,7 @@ public class ArticuloDAO {
     }
 
     
-    public static boolean editar(int id, String clave, String nombre, String descripcion, double precio){
+    public static boolean editar(int id, String clave, String nombre, String descripcion, double precio, Proveedor proveedor){
     boolean resultado = false;
     try{
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -79,10 +79,11 @@ public class ArticuloDAO {
 
         Articulo articulo = obtenerPorId(id);
         if(articulo != null){
-            articulo.getClave();
-            articulo.getNombre();
-            articulo.getDescripcion();
-            articulo.getPrecio();           
+            articulo.setClave(clave);
+            articulo.setNombre(nombre);
+            articulo.setDescripcion(descripcion);
+            articulo.setPrecio(precio);
+            articulo.setProveedor(proveedor);
             session.saveOrUpdate(articulo);
             session.getTransaction().commit();
             resultado = true;
