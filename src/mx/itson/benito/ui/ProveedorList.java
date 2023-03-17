@@ -35,7 +35,7 @@ public class ProveedorList extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProveedores = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        mbProveedor = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         btnAgregar = new javax.swing.JMenuItem();
         btnEditar = new javax.swing.JMenuItem();
@@ -90,9 +90,9 @@ public class ProveedorList extends javax.swing.JFrame {
         });
         jMenu1.add(btnEliminar);
 
-        jMenuBar1.add(jMenu1);
+        mbProveedor.add(jMenu1);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(mbProveedor);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,6 +120,8 @@ public class ProveedorList extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(0));
         cargarTable();
+        Usuario u = new Usuario();
+        
     }//GEN-LAST:event_formWindowOpened
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -208,8 +210,8 @@ public class ProveedorList extends javax.swing.JFrame {
     private javax.swing.JMenuItem btnEliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JMenuBar mbProveedor;
     private javax.swing.JTable tblProveedores;
     // End of variables declaration//GEN-END:variables
 }

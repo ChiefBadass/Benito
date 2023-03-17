@@ -43,6 +43,7 @@ public class OrdenCompraList extends javax.swing.JFrame {
         btnRecibir = new javax.swing.JMenuItem();
         btnCancelar = new javax.swing.JMenuItem();
         btnEliminar = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -88,6 +89,14 @@ public class OrdenCompraList extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setText("Proveedores");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu2);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -121,6 +130,12 @@ public class OrdenCompraList extends javax.swing.JFrame {
     private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
         
     }//GEN-LAST:event_btnOrdenarActionPerformed
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        this.setVisible(false);
+        ProveedorList p = new ProveedorList();
+        p.setVisible(true);
+    }//GEN-LAST:event_jMenu2MouseClicked
 
     
     private void cargarTable(){
@@ -175,6 +190,7 @@ public class OrdenCompraList extends javax.swing.JFrame {
     private javax.swing.JMenuItem btnRecibir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblOrdenesCompras;

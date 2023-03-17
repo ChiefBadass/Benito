@@ -126,8 +126,8 @@ public class UsuarioContraseña extends javax.swing.JDialog {
                     this.setVisible(false);
                     Usuario u = new Usuario();
                     u.setVisible(false);
-                    ArticuloList a = new ArticuloList();
-                    a.setVisible(true);
+                    OrdenCompraList o = new OrdenCompraList();
+                    o.setVisible(true);
                 }else{
                     JOptionPane.showMessageDialog(this, "Esa no es la contraseña", "Error al ingresar la contraseña", JOptionPane.ERROR_MESSAGE);
                 }
