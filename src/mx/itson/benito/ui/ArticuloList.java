@@ -7,6 +7,7 @@ package mx.itson.benito.ui;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mx.itson.benito.entidades.Articulo;
+import mx.itson.benito.entidades.Proveedor;
 import mx.itson.benito.persistencia.ArticuloDAO;
 import mx.itson.benito.persistencia.ProveedorDAO;
 
@@ -17,6 +18,7 @@ import mx.itson.benito.persistencia.ProveedorDAO;
  */
 public class ArticuloList extends javax.swing.JFrame {
 
+    private int id;
     /**
      * Creates new form ArticuloList
      */
@@ -37,6 +39,7 @@ public class ArticuloList extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblArticulos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         btnAgregar = new javax.swing.JMenuItem();
@@ -52,19 +55,26 @@ public class ArticuloList extends javax.swing.JFrame {
 
         tblArticulos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Clave", "Nombre", "Diescripcion", "Precio", "Proveedor"
+                "ID", "Clave", "Nombre", "Diescripcion", "Precio"
             }
         ));
         jScrollPane1.setViewportView(tblArticulos);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel1.setText("Articulos");
+
+        jButton1.setText("Regresar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Opciones");
 
@@ -100,22 +110,28 @@ public class ArticuloList extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 765, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(336, 336, 336)
+                .addGap(334, 334, 334)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(10, 10, 10))
         );
 
         pack();
@@ -163,14 +179,27 @@ public class ArticuloList extends javax.swing.JFrame {
          }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void cargarTable(){
-        ArticuloDAO articulos = new ArticuloDAO();
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ProveedorList p = new ProveedorList();
+        p.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+    public void pasarId(int id){
+        this.id = id;     
+    }
+    private void cargarTable(){      
         DefaultTableModel modelo = (DefaultTableModel) tblArticulos.getModel();
-        modelo.setRowCount(0);
-        for(Articulo a : articulos.obtenerTodos()){
-            modelo.addRow(new Object[] {a.getId(), a.getClave(), a.getNombre(), a.getDescripcion(), a.getPrecio(), a.getProveedor()});
+        modelo.setRowCount(0);      
+        for(Articulo a : ArticuloDAO.obtenerTodos()){
+           if(id== a.getProveedor().getId() ){
+                modelo.addRow(new Object[] {a.getId(), a.getClave(), a.getNombre(), a.getDescripcion(), a.getPrecio()});
+           }
+            
         }
     }
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -210,6 +239,7 @@ public class ArticuloList extends javax.swing.JFrame {
     private javax.swing.JMenuItem btnAgregar;
     private javax.swing.JMenuItem btnEditar;
     private javax.swing.JMenuItem btnEliminar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;

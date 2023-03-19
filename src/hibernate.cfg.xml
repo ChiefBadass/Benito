@@ -22,7 +22,9 @@
         </property>
         <mapping class="mx.itson.benito.entidades.Proveedor"/>
         <mapping class="mx.itson.benito.entidades.Articulo"/>
-        <mapping class="mx.itson.benito.entidades.OrdenCompra"/>        
+        <mapping class="mx.itson.benito.entidades.OrdenCompra"/>  
+        <mapping class="mx.itson.benito.entidades.Usuario"/>
+        <mapping class="mx.itson.benito.entidades.ArticuloCompra"/>              
     </session-factory>
 </hibernate-configuration>
 

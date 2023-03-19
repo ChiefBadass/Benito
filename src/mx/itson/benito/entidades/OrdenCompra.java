@@ -5,12 +5,14 @@
 package mx.itson.benito.entidades;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,7 +36,23 @@ public class OrdenCompra {
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idProveedor")
     private Proveedor proveedor;
-    
+    @OneToMany(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "idArtituloCompra")
+    private List<ArticuloCompra> articuloCompra;
+
+    /**
+     * @return the articuloCompra
+     */
+    public List<ArticuloCompra> getArticuloCompra() {
+        return articuloCompra;
+    }
+
+    /**
+     * @param articuloCompra the articuloCompra to set
+     */
+    public void setArticuloCompra(List<ArticuloCompra> articuloCompra) {
+        this.articuloCompra = articuloCompra;
+    }
 
     /**
      * @return the proveedor

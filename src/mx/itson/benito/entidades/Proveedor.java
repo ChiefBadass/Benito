@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -28,21 +29,21 @@ public class Proveedor {
     private String telefono;
     private String correo;
     private String contacto;
-    @OneToMany(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idArticulos")
-    private List<Articulo> articulos;
+    private Articulo articulos;
 
     /**
      * @return the articulos
      */
-    public List<Articulo> getArticulos() {
+    public Articulo getArticulos() {
         return articulos;
     }
 
     /**
      * @param articulos the articulos to set
      */
-    public void setArticulos(List<Articulo> articulos) {
+    public void setArticulos(Articulo articulos) {
         this.articulos = articulos;
     }
     

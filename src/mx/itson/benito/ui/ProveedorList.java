@@ -40,6 +40,7 @@ public class ProveedorList extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JMenuItem();
         btnEditar = new javax.swing.JMenuItem();
         btnEliminar = new javax.swing.JMenuItem();
+        jmArticulos = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -92,6 +93,14 @@ public class ProveedorList extends javax.swing.JFrame {
 
         mbProveedor.add(jMenu1);
 
+        jmArticulos.setText("Articulos de proveedor");
+        jmArticulos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jmArticulosMouseClicked(evt);
+            }
+        });
+        mbProveedor.add(jmArticulos);
+
         setJMenuBar(mbProveedor);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -120,7 +129,7 @@ public class ProveedorList extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(0));
         cargarTable();
-        Usuario u = new Usuario();
+        Main u = new Main();
         
     }//GEN-LAST:event_formWindowOpened
 
@@ -133,7 +142,7 @@ public class ProveedorList extends javax.swing.JFrame {
        form.setVisible(true);
        cargarTable(); 
        }else{
-           JOptionPane.showMessageDialog(this, "Ocurrió un error, seleccione un conductor", "Error al seleccionar", JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(this, "Ocurrió un error, seleccione un proveedor", "Error al seleccionar", JOptionPane.ERROR_MESSAGE);
        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
@@ -161,11 +170,24 @@ public class ProveedorList extends javax.swing.JFrame {
          }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void jmArticulosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmArticulosMouseClicked
+       int renglon = tblProveedores.getSelectedRow();
+       if(renglon != -1){
+       int idProveedor = Integer.parseInt(tblProveedores.getModel().getValueAt(renglon, 0).toString());
+       ArticuloList a = new ArticuloList();
+       a.pasarId(idProveedor);
+       a.setVisible(true);
+       this.setVisible(false);
+       }else{
+           JOptionPane.showMessageDialog(this, "Ocurrió un error, seleccione un proveedor", "Error al seleccionar", JOptionPane.ERROR_MESSAGE);
+       }
+    }//GEN-LAST:event_jmArticulosMouseClicked
+
     private void cargarTable(){
-        ProveedorDAO proveedores = new ProveedorDAO();
+        
         DefaultTableModel modelo = (DefaultTableModel) tblProveedores.getModel();
         modelo.setRowCount(0);
-        for(Proveedor p : proveedores.obtenerTodos()){
+        for(Proveedor p : ProveedorDAO.obtenerTodos()){
             modelo.addRow(new Object[] {p.getId(), p.getClave(), p.getNombre(), p.getDireccion(), p.getTelefono(), p.getCorreo(), p.getContacto()});
         }
     }
@@ -211,6 +233,7 @@ public class ProveedorList extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenu jmArticulos;
     public javax.swing.JMenuBar mbProveedor;
     private javax.swing.JTable tblProveedores;
     // End of variables declaration//GEN-END:variables

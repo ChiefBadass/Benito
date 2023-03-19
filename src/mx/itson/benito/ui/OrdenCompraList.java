@@ -128,7 +128,9 @@ public class OrdenCompraList extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
-        
+        OrdenCompraForm form = new OrdenCompraForm(this, true, 0);
+        form.setVisible(true);
+        cargarTable();
     }//GEN-LAST:event_btnOrdenarActionPerformed
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked

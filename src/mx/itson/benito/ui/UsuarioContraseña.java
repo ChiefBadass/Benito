@@ -4,7 +4,11 @@
  */
 package mx.itson.benito.ui;
 
+import java.util.List;
 import javax.swing.JOptionPane;
+import mx.itson.benito.entidades.Usuario;
+import mx.itson.benito.persistencia.UsuarioDAO;
+
 
 
 /**
@@ -21,6 +25,7 @@ public class UsuarioContraseña extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         lblObligatorio.setVisible(false);
+        cargarAdministradores();
     }
 
     /**
@@ -37,6 +42,8 @@ public class UsuarioContraseña extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         btnAceptar = new javax.swing.JButton();
         lblObligatorio = new javax.swing.JLabel();
+        cbxAdministrador = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -55,42 +62,54 @@ public class UsuarioContraseña extends javax.swing.JDialog {
         lblObligatorio.setForeground(new java.awt.Color(255, 0, 0));
         lblObligatorio.setText("*Obligatorio");
 
+        jLabel3.setText("Administrador: ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblObligatorio)))
-                        .addGap(0, 11, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnAceptar)))
+                        .addComponent(btnAceptar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(82, 82, 82)
+                                .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblObligatorio))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbxAdministrador, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))))
+                        .addGap(0, 17, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(82, 82, 82)
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(43, 43, 43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbxAdministrador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblObligatorio))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
                 .addComponent(btnAceptar)
                 .addContainerGap())
         );
@@ -116,13 +135,33 @@ public class UsuarioContraseña extends javax.swing.JDialog {
         return !string.trim().equals("");    
     }
     
+    public void cargarAdministradores(){    
+        List<Usuario> usuario = UsuarioDAO.obtenerTodos();
+        for(Usuario u : usuario ){
+            cbxAdministrador.addItem(u);
+        }
+    }
+    
+    /*public boolean encontrarContraseña(Usuario usuario){
+        boolean resultado=false;
+          
+        for(Usuario u : UsuarioDAO.obtenerTodos()){
+            if(usuario.equals(u)){
+                
+            }
+        }
+        
+    }*/
+    
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         contador = 0;
         validar();
         String contraseña = txtContraseña.getText();
+        
+        
         if(contador == 0){
             if(validarCasilla(contraseña)){
-                if(contraseña.equals("Carlos123")){
+                /*if(contraseña.equals()){
                     this.setVisible(false);
                     Usuario u = new Usuario();
                     u.setVisible(false);
@@ -130,7 +169,7 @@ public class UsuarioContraseña extends javax.swing.JDialog {
                     o.setVisible(true);
                 }else{
                     JOptionPane.showMessageDialog(this, "Esa no es la contraseña", "Error al ingresar la contraseña", JOptionPane.ERROR_MESSAGE);
-                }
+                }*/
             }
         }else{
             JOptionPane.showMessageDialog(this, "Ocurrió un error al intentar ingresar un dato", "Error al ingresar", JOptionPane.ERROR_MESSAGE);
@@ -181,8 +220,10 @@ public class UsuarioContraseña extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
+    private javax.swing.JComboBox<Usuario> cbxAdministrador;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblObligatorio;
     private javax.swing.JTextField txtContraseña;
     // End of variables declaration//GEN-END:variables

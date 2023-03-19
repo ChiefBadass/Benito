@@ -39,7 +39,7 @@ public class ArticuloForm extends javax.swing.JDialog {
             txtNombre.setText(articulo.getNombre());
             txtDescripcion.setText(articulo.getDescripcion());
             txtPrecio.setText(String.valueOf(articulo.getPrecio()));
-            
+            cbxProveedor.getModel().setSelectedItem(articulo.getProveedor());
             
         }
     }
@@ -187,8 +187,8 @@ public class ArticuloForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     public void cargarProveedores(){
-        List<Proveedor> conductores = ProveedorDAO.obtenerTodos();
-        for(Proveedor p : conductores){
+        List<Proveedor> proveedores = ProveedorDAO.obtenerTodos();
+        for(Proveedor p : proveedores){
             cbxProveedor.addItem(p);
         }
     }

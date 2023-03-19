@@ -4,20 +4,40 @@
  */
 package mx.itson.benito.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import mx.itson.benito.entidades.Articulo;
+import mx.itson.benito.entidades.ArticuloCompra;
+import mx.itson.benito.persistencia.ArticuloDAO;
+
+
 /**
  *
  * @author carlo
  */
 public class ArticuloCompraForm extends javax.swing.JDialog {
 
+    List<ArticuloCompra> articulosComprados = new ArrayList<>();
+    int id;
     /**
      * Creates new form ArticuloCompraForm
      */
-    public ArticuloCompraForm(java.awt.Frame parent, boolean modal) {
+    public ArticuloCompraForm(javax.swing.JDialog parent, boolean modal, int id) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        this.id = id;
+        cargarArticulos();
     }
+    public void cargarArticulos(){       
+        for(Articulo a : ArticuloDAO.obtenerTodos()){
+           if(id== a.getProveedor().getId() ){
+                cbxArticulos.addItem(a);
+           }         
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,22 +48,79 @@ public class ArticuloCompraForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cbxArticulos = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        snrCantidad = new javax.swing.JSpinner();
+        jLabel2 = new javax.swing.JLabel();
+        btnAgregar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel1.setText("Articulos:");
+
+        jLabel2.setText("Cantidad:");
+
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbxArticulos, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addContainerGap(60, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(snrCantidad)
+                        .addGap(21, 21, 21))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAgregar)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxArticulos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(snrCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(btnAgregar)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        Articulo articulo = (Articulo) cbxArticulos.getSelectedItem();
+        int cantidad = Integer.parseInt(snrCantidad.getValue().toString());
+        
+        ArticuloCompra a = new ArticuloCompra();
+        a.setArticulo(articulo);
+        a.setCantidad(cantidad);
+        articulosComprados.add(a);
+        //OrdenCompraForm o = new OrdenCompraForm();
+    }//GEN-LAST:event_btnAgregarActionPerformed
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -74,7 +151,7 @@ public class ArticuloCompraForm extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ArticuloCompraForm dialog = new ArticuloCompraForm(new javax.swing.JFrame(), true);
+                ArticuloCompraForm dialog = new ArticuloCompraForm(new javax.swing.JDialog(), true,0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -87,5 +164,10 @@ public class ArticuloCompraForm extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JComboBox<Articulo> cbxArticulos;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JSpinner snrCantidad;
     // End of variables declaration//GEN-END:variables
 }

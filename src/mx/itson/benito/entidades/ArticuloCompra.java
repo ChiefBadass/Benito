@@ -4,14 +4,42 @@
  */
 package mx.itson.benito.entidades;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
 /**
  *
  * @author carlo
  */
+ @Entity
 public class ArticuloCompra {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "idArticulo")
     private Articulo articulo;
     private int cantidad;
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     /**
      * @return the articulo
      */

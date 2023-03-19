@@ -5,11 +5,14 @@
 package mx.itson.benito.persistencia;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
+import mx.itson.benito.entidades.ArticuloCompra;
 import mx.itson.benito.entidades.OrdenCompra;
 import mx.itson.benito.entidades.Proveedor;
 import mx.itson.benito.utilerias.HibernateUtil;
+import mx.itson.edu.mx.enumeradores.Estado;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -35,24 +38,25 @@ public class OrdenCompraDAO {
     return ordenesCompras;
     }
     
-    public static boolean guardar(String clave, String nombre, String direccion, String telefono, String correo, String contacto){
+    public static boolean guardar(String folio, Date fecha, Proveedor proveedor, List<ArticuloCompra> articuloCompra, double subTotal, double total, Estado estado){
     boolean resultado = false;    
     try{
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         
-        Proveedor p = new Proveedor();
-        p.setClave(clave);
-        p.setNombre(nombre);
-        p.setDireccion(direccion);
-        p.setTelefono(telefono);
-        p.setCorreo(correo);
-        p.setContacto(contacto);
-        session.save(p);
+        OrdenCompra o = new OrdenCompra();
+        o.setFolio(folio);
+        o.setFecha(fecha);
+        o.setProveedor(proveedor);
+        o.setArticuloCompra(articuloCompra);
+        o.setSubTotal(subTotal);
+        o.setTotal(total);
+        o.setEstado(estado);
+        session.save(o);
         
         session.getTransaction().commit();
         
-        resultado = p.getId() !=0;
+        resultado = o.getId() !=0;
         
     }catch(Exception ex){
         System.out.println("Ocurrio un error: " + ex);
@@ -60,33 +64,34 @@ public class OrdenCompraDAO {
     return resultado;
     }
     
-    public static Proveedor obtenerPorId(int id){
-        Proveedor proveedor = null;
+    public static OrdenCompra obtenerPorId(int id){
+        OrdenCompra ordenCompra = null;
         try{
                 Session session = HibernateUtil.getSessionFactory().openSession();
-                proveedor = session.get(Proveedor.class, id);
+                ordenCompra = session.get(OrdenCompra.class, id);
         }catch(HibernateException ex){
                 System.err.println("Ocurrio un error: " + ex.getMessage());
         }
-    return proveedor;
+    return ordenCompra;
     }
 
     
-    public static boolean editar(int id, String clave, String nombre, String direccion, String telefono, String correo, String contacto){
+    public static boolean editar(int id, String folio, Date fecha, Proveedor proveedor, List<ArticuloCompra> articuloCompra, double subTotal, double total, Estado estado){
     boolean resultado = false;
     try{
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        Proveedor proveedor = obtenerPorId(id);
-        if(proveedor != null){
-            proveedor.getClave();
-            proveedor.getNombre();
-            proveedor.getDireccion();
-            proveedor.getTelefono();
-            proveedor.getCorreo();
-            proveedor.getContacto();
-            session.saveOrUpdate(proveedor);
+        OrdenCompra ordenCompra = obtenerPorId(id);
+        if(ordenCompra != null){
+            ordenCompra.setFolio(folio);
+            ordenCompra.setFolio(folio);
+            ordenCompra.setProveedor(proveedor);
+            ordenCompra.setArticuloCompra(articuloCompra);
+            ordenCompra.setSubTotal(subTotal);
+            ordenCompra.setTotal(total);
+            ordenCompra.setEstado(estado);
+            session.saveOrUpdate(ordenCompra);
             session.getTransaction().commit();
             resultado = true;
         }
@@ -102,10 +107,10 @@ public class OrdenCompraDAO {
         try{
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            Proveedor proveedor = session.get(Proveedor.class, id);
+            OrdenCompra ordenCompra = session.get(OrdenCompra.class, id);
             
-            if(proveedor!=null){
-                session.delete(proveedor);
+            if(ordenCompra!=null){
+                session.delete(ordenCompra);
                 session.getTransaction().commit();
             resultado = true;
             }
