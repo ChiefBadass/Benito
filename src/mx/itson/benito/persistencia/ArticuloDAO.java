@@ -34,7 +34,15 @@ public class ArticuloDAO {
         }
     return articulos;
     }
-    
+    /**
+     * Metodo para guardar un articulo
+     * @param clave 
+     * @param nombre
+     * @param descripcion
+     * @param precio
+     * @param proveedor
+     * @return 
+     */
     public static boolean guardar(String clave, String nombre, String descripcion, double precio, Proveedor proveedor){
     boolean resultado = false;    
     try{

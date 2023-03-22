@@ -34,6 +34,22 @@ public class OrdenCompra {
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idProveedor")
     private Proveedor proveedor;
+    private String comentario;
+
+    /**
+     * @return the comentario
+     */
+    public String getComentario() {
+        return comentario;
+    }
+
+    /**
+     * @param comentario the comentario to set
+     */
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+    
     
 
     /**

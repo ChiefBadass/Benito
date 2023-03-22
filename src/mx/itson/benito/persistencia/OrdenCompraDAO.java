@@ -38,7 +38,7 @@ public class OrdenCompraDAO {
     return ordenesCompras;
     }
     
-    public static boolean guardar(String folio, Date fecha, Proveedor proveedor, double subTotal, double total, Estado estado){
+    public static boolean guardar(String folio, Date fecha, Proveedor proveedor, double subTotal, double total, Estado estado, String comentario){
     boolean resultado = false;    
     try{
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -51,6 +51,7 @@ public class OrdenCompraDAO {
         o.setSubTotal(subTotal);
         o.setTotal(total);
         o.setEstado(estado);
+        o.setComentario(comentario);
         session.save(o);
         
         session.getTransaction().commit();

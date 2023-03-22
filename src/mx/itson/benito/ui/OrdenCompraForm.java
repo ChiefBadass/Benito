@@ -26,6 +26,7 @@ import mx.itson.edu.mx.enumeradores.Estado;
 public class OrdenCompraForm extends javax.swing.JDialog {
 
     ArticuloCompraForm form;
+    
     int id;
     /**
      * Creates new form OrdenCompraForm
@@ -36,7 +37,7 @@ public class OrdenCompraForm extends javax.swing.JDialog {
         lblObligatorio1.setVisible(false);
         lblObligatorio2.setVisible(false);
         this.setLocationRelativeTo(null);
-        this.id = id;
+        this.id = id;      
         cargarProveedores();
         
         if(id != 0){
@@ -143,7 +144,7 @@ public class OrdenCompraForm extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnSelecArticulo)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,7 +173,7 @@ public class OrdenCompraForm extends javax.swing.JDialog {
                 .addComponent(btnSelecArticulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnGuardar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -224,7 +225,7 @@ public class OrdenCompraForm extends javax.swing.JDialog {
         String folio = txtFolio.getText();
         Date fecha = dcrFecha.getDate();
         Proveedor proveedor = (Proveedor) cbxProveedor.getSelectedItem();
-        if(form.articulosComprados != null){
+        if(!form.articulosComprados.isEmpty()){
             List<ArticuloComprado> articuloCompra = form.articulosComprados;
         
             subTotal = Operaciones.calcularSubTotal(articuloCompra);

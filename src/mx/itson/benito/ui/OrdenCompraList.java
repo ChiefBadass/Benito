@@ -6,9 +6,11 @@ package mx.itson.benito.ui;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mx.itson.benito.entidades.OrdenCompra;
+import mx.itson.benito.persistencia.HistorialDAO;
 import mx.itson.benito.persistencia.OrdenCompraDAO;
 import mx.itson.edu.mx.enumeradores.Estado;
 
@@ -47,6 +49,7 @@ public class OrdenCompraList extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         mVerCompra = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -60,13 +63,13 @@ public class OrdenCompraList extends javax.swing.JFrame {
 
         tblOrdenesCompras.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Folio", "Fecha", "Proveedor", "SubTotal", "Total", "Estado"
+                "ID", "Folio", "Fecha", "Proveedor", "SubTotal", "Total", "Estado", "Fecha cancelada"
             }
         ));
         jScrollPane1.setViewportView(tblOrdenesCompras);
@@ -121,12 +124,15 @@ public class OrdenCompraList extends javax.swing.JFrame {
                 mVerCompraMouseClicked(evt);
             }
         });
-        mVerCompra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mVerCompraActionPerformed(evt);
+        jMenuBar1.add(mVerCompra);
+
+        jMenu3.setText("Historial");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
             }
         });
-        jMenuBar1.add(mVerCompra);
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -210,14 +216,18 @@ public class OrdenCompraList extends javax.swing.JFrame {
        int renglon = tblOrdenesCompras.getSelectedRow();
        if(renglon != -1){
            Estado estado = (Estado) tblOrdenesCompras.getModel().getValueAt(renglon, 6);
+           
            if(estado == Estado.Cerrado || estado == Estado.Cancelado){
                JOptionPane.showMessageDialog(this, "Ocurrió un error, esta compra se encuentra deshabilitada", "Compra cerrada o cancelada", JOptionPane.ERROR_MESSAGE);
            }else{
                int idOrdenCompra = Integer.parseInt(tblOrdenesCompras.getModel().getValueAt(renglon, 0).toString());
                 int resultado = JOptionPane.showConfirmDialog(this, "¿Esta seguro que quiere cancelar esta orden?", "Confirmacion", JOptionPane.YES_NO_OPTION);
                 if(resultado == JOptionPane.YES_OPTION){
+                    Date fecha = new Date();
+                    
                     OrdenCompra ordenCompra = OrdenCompraDAO.obtenerPorId(idOrdenCompra);
                     OrdenCompraDAO.editar(ordenCompra.getId(), ordenCompra.getFolio(), ordenCompra.getFecha(), ordenCompra.getProveedor(), ordenCompra.getSubTotal(), ordenCompra.getTotal(), Estado.Cancelado);
+                    HistorialDAO.guardar(fecha, ordenCompra);
                     cargarTable(); 
                 }  
            } 
@@ -225,10 +235,6 @@ public class OrdenCompraList extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(this, "Ocurrió un error, seleccione una orden", "Error al seleccionar", JOptionPane.ERROR_MESSAGE);
        }
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void mVerCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVerCompraActionPerformed
-       
-    }//GEN-LAST:event_mVerCompraActionPerformed
 
     private void mVerCompraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mVerCompraMouseClicked
         int renglon = tblOrdenesCompras.getSelectedRow();
@@ -243,6 +249,11 @@ public class OrdenCompraList extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(this, "Ocurrió un error, seleccione una orden", "Error al seleccionar", JOptionPane.ERROR_MESSAGE);
        }
     }//GEN-LAST:event_mVerCompraMouseClicked
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        HistorialList historial = new HistorialList(this, true);
+        historial.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_jMenu3MouseClicked
 
     
     private void cargarTable(){
@@ -298,6 +309,7 @@ public class OrdenCompraList extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenu mVerCompra;
