@@ -10,9 +10,10 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mx.itson.benito.entidades.Articulo;
-import mx.itson.benito.entidades.ArticuloCompra;
+import mx.itson.benito.entidades.ArticuloComprado;
 import mx.itson.benito.entidades.OrdenCompra;
 import mx.itson.benito.entidades.Proveedor;
+import mx.itson.benito.negocio.Operaciones;
 import mx.itson.benito.persistencia.ArticuloDAO;
 import mx.itson.benito.persistencia.OrdenCompraDAO;
 import mx.itson.benito.persistencia.ProveedorDAO;
@@ -32,6 +33,8 @@ public class OrdenCompraForm extends javax.swing.JDialog {
     public OrdenCompraForm(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
         initComponents();
+        lblObligatorio1.setVisible(false);
+        lblObligatorio2.setVisible(false);
         this.setLocationRelativeTo(null);
         this.id = id;
         cargarProveedores();
@@ -66,11 +69,14 @@ public class OrdenCompraForm extends javax.swing.JDialog {
         dcrFecha = new com.toedter.calendar.JDateChooser();
         cbxProveedor = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblArticulos = new javax.swing.JTable();
         btnSelecArticulo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -97,19 +103,6 @@ public class OrdenCompraForm extends javax.swing.JDialog {
 
         jLabel8.setText("Articulos:");
 
-        tblArticulos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Arituclo", "cantidad"
-            }
-        ));
-        jScrollPane1.setViewportView(tblArticulos);
-
         btnSelecArticulo.setText("Seleccionar articulo");
         btnSelecArticulo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,40 +117,33 @@ public class OrdenCompraForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(txtFolio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(dcrFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(cbxProveedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addGap(12, 12, 12)))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblObligatorio1)
-                                            .addComponent(lblObligatorio2)))
-                                    .addComponent(jLabel8))))
-                        .addGap(0, 40, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnGuardar)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnSelecArticulo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtFolio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(dcrFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(cbxProveedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(12, 12, 12)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblObligatorio1)
+                                    .addComponent(lblObligatorio2)
+                                    .addComponent(btnGuardar)))
+                            .addComponent(jLabel8)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnSelecArticulo)))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,12 +169,10 @@ public class OrdenCompraForm extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSelecArticulo)
-                .addGap(63, 63, 63)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnGuardar)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -220,6 +204,7 @@ public class OrdenCompraForm extends javax.swing.JDialog {
         return !string.trim().equals("");    
     }
     
+    
     public void resultado(boolean resultado){
         if(resultado){
             JOptionPane.showMessageDialog(this, "El registro se guardo correctamente", "Registro guardado", JOptionPane.INFORMATION_MESSAGE);
@@ -233,49 +218,51 @@ public class OrdenCompraForm extends javax.swing.JDialog {
     
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         contador = 0;
+        double subTotal = 0;
+        double total = 0;
         validar();
         String folio = txtFolio.getText();
         Date fecha = dcrFecha.getDate();
         Proveedor proveedor = (Proveedor) cbxProveedor.getSelectedItem();
-        List<Articulo> articulos = new ArrayList<>();
-        for(int i = 0; i < tblArticulos.getColumnModel().getColumn(0).getMaxWidth()-1; i++){
-            
+        if(form.articulosComprados != null){
+            List<ArticuloComprado> articuloCompra = form.articulosComprados;
+        
+            subTotal = Operaciones.calcularSubTotal(articuloCompra);
+            total = Operaciones.calcularTotal(subTotal);
         }
         
-        
 
-        /*if(contador == 0){
+        if(contador == 0){
             if(validarCasilla(folio) & validarCasilla(dcrFecha.getDateFormatString())){
                 if(this.id == 0){
-                    boolean resultado = OrdenCompraDAO.guardar(folio, fecha, proveedor, articuloCompra, ABORT, WIDTH, Estado.Cerrado);
+                    boolean resultado = OrdenCompraDAO.guardar(folio, fecha, proveedor, subTotal, total, Estado.Abierto);
                     resultado(resultado);
                 }else{
-                    boolean resultado = OrdenCompraDAO.editar(id, folio, fecha, proveedor, articuloCompra, ABORT, WIDTH, Estado.Cerrado);
+                    boolean resultado = OrdenCompraDAO.editar(id, folio, fecha, proveedor, subTotal, total, Estado.Cerrado);
                     resultado(resultado);
                 }
             }
+            
         }else{
             JOptionPane.showMessageDialog(this, "Ocurrió un error al intentar ingresar un dato", "Error al ingresar", JOptionPane.ERROR_MESSAGE);
-        }*/
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnSelecArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecArticuloActionPerformed
         Proveedor proveedor = (Proveedor) cbxProveedor.getSelectedItem();
         int idProveedor = proveedor.getId();
-        form = new ArticuloCompraForm( new javax.swing.JDialog(), true, idProveedor);
+        form = new ArticuloCompraForm( new javax.swing.JDialog(), true, idProveedor, id);
         
         form.setVisible(true);
         
     }//GEN-LAST:event_btnSelecArticuloActionPerformed
 
-    public void cargarArticulos(){
-        DefaultTableModel modelo = (DefaultTableModel) tblArticulos.getModel();
-        modelo.setRowCount(0);      
-        List<ArticuloCompra> articulosComprados = form.articulosComprados;
-        for(ArticuloCompra a : articulosComprados){          
-            modelo.addRow(new Object[] {a.getArticulo(), a.getCantidad()});         
-        }
-    }
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
+        
+    }//GEN-LAST:event_formWindowOpened
+
+    
     /**
      * @param args the command line arguments
      */
@@ -328,10 +315,8 @@ public class OrdenCompraForm extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblObligatorio1;
     private javax.swing.JLabel lblObligatorio2;
-    private javax.swing.JTable tblArticulos;
     private javax.swing.JTextField txtFolio;
     // End of variables declaration//GEN-END:variables
 }

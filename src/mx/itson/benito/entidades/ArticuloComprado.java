@@ -16,8 +16,8 @@ import javax.persistence.OneToOne;
  *
  * @author carlo
  */
- @Entity
-public class ArticuloCompra {
+@Entity
+public class ArticuloComprado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -25,6 +25,25 @@ public class ArticuloCompra {
     @JoinColumn(name = "idArticulo")
     private Articulo articulo;
     private int cantidad;
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "idOrdenCompra")
+    private OrdenCompra ordenCompra;
+
+    /**
+     * @return the ordenCompra
+     */
+    public OrdenCompra getOrdenCompra() {
+        return ordenCompra;
+    }
+
+    /**
+     * @param ordenCompra the ordenCompra to set
+     */
+    public void setOrdenCompra(OrdenCompra ordenCompra) {
+        this.ordenCompra = ordenCompra;
+    }
+    
+    
 
     /**
      * @return the id

@@ -166,8 +166,8 @@ public class ArticuloList extends javax.swing.JFrame {
          if(renglon != -1){
             int resultado = JOptionPane.showConfirmDialog(this, "¿Esta seguro que quiere eliminar a este articulo?", "Confirmacion", JOptionPane.YES_NO_OPTION);
             if(resultado == JOptionPane.YES_OPTION){
-                int idProveedor = Integer.parseInt(tblArticulos.getModel().getValueAt(renglon, 0).toString());        
-                if(ProveedorDAO.eliminar(idProveedor)){
+                int idArticulo = Integer.parseInt(tblArticulos.getModel().getValueAt(renglon, 0).toString());        
+                if(ArticuloDAO.eliminar(idArticulo)){
                     JOptionPane.showMessageDialog(this, "El registro se elimino correctamente", "Registro eliminado", JOptionPane.INFORMATION_MESSAGE);          
                 }else {
                     JOptionPane.showMessageDialog(this, "Ocurrio un error al intentar eliminar el registro", "Error al eliminar", JOptionPane.ERROR_MESSAGE);  

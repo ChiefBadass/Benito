@@ -36,23 +36,7 @@ public class OrdenCompra {
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idProveedor")
     private Proveedor proveedor;
-    @OneToMany(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "idArtituloCompra")
-    private List<ArticuloCompra> articuloCompra;
-
-    /**
-     * @return the articuloCompra
-     */
-    public List<ArticuloCompra> getArticuloCompra() {
-        return articuloCompra;
-    }
-
-    /**
-     * @param articuloCompra the articuloCompra to set
-     */
-    public void setArticuloCompra(List<ArticuloCompra> articuloCompra) {
-        this.articuloCompra = articuloCompra;
-    }
+    
 
     /**
      * @return the proveedor

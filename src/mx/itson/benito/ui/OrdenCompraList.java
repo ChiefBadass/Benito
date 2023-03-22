@@ -6,9 +6,11 @@ package mx.itson.benito.ui;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mx.itson.benito.entidades.OrdenCompra;
 import mx.itson.benito.persistencia.OrdenCompraDAO;
+import mx.itson.edu.mx.enumeradores.Estado;
 
 
 /**
@@ -57,13 +59,13 @@ public class OrdenCompraList extends javax.swing.JFrame {
 
         tblOrdenesCompras.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Folio", "Fecha", "Proveedor", "Articudo", "SubTotal", "Total", "Estado"
+                "ID", "Folio", "Fecha", "Proveedor", "SubTotal", "Total", "Estado"
             }
         ));
         jScrollPane1.setViewportView(tblOrdenesCompras);
@@ -79,12 +81,27 @@ public class OrdenCompraList extends javax.swing.JFrame {
         jMenu1.add(btnOrdenar);
 
         btnRecibir.setText("Recibir");
+        btnRecibir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecibirActionPerformed(evt);
+            }
+        });
         jMenu1.add(btnRecibir);
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
         jMenu1.add(btnCancelar);
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         jMenu1.add(btnEliminar);
 
         jMenuBar1.add(jMenu1);
@@ -138,6 +155,62 @@ public class OrdenCompraList extends javax.swing.JFrame {
         ProveedorList p = new ProveedorList();
         p.setVisible(true);
     }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void btnRecibirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecibirActionPerformed
+       int renglon = tblOrdenesCompras.getSelectedRow();
+       if(renglon != -1){
+           Estado estado = (Estado) tblOrdenesCompras.getModel().getValueAt(renglon, 6);
+           if(estado == Estado.Cerrado || estado == Estado.Cancelado){
+               JOptionPane.showMessageDialog(this, "Ocurrió un error, esta compra se encuentra deshabilitada", "Compra cerrada o cancelada", JOptionPane.ERROR_MESSAGE);
+           }else{
+               int idOrdenCompra = Integer.parseInt(tblOrdenesCompras.getModel().getValueAt(renglon, 0).toString());
+               OrdenCompraForm form = new OrdenCompraForm(this, true, idOrdenCompra );
+       
+               form.setVisible(true);
+               cargarTable();
+           } 
+       }else{
+           JOptionPane.showMessageDialog(this, "Ocurrió un error, seleccione una orden", "Error al seleccionar", JOptionPane.ERROR_MESSAGE);
+       }
+    }//GEN-LAST:event_btnRecibirActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int renglon = tblOrdenesCompras.getSelectedRow();
+         if(renglon != -1){
+            int resultado = JOptionPane.showConfirmDialog(this, "¿Esta seguro que quiere eliminar esta orden?", "Confirmacion", JOptionPane.YES_NO_OPTION);
+            if(resultado == JOptionPane.YES_OPTION){
+                int idOrdenCompra = Integer.parseInt(tblOrdenesCompras.getModel().getValueAt(renglon, 0).toString());        
+                if(OrdenCompraDAO.eliminar(idOrdenCompra)){
+                    JOptionPane.showMessageDialog(this, "El registro se elimino correctamente", "Registro eliminado", JOptionPane.INFORMATION_MESSAGE);          
+                }else {
+                    JOptionPane.showMessageDialog(this, "Ocurrio un error al intentar eliminar el registro", "Error al eliminar", JOptionPane.ERROR_MESSAGE);  
+                }       
+                cargarTable(); 
+            }            
+         }else{
+              JOptionPane.showMessageDialog(this, "Ocurrió un error, seleccione una orden", "Error al seleccionar", JOptionPane.ERROR_MESSAGE);
+         }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+       int renglon = tblOrdenesCompras.getSelectedRow();
+       if(renglon != -1){
+           Estado estado = (Estado) tblOrdenesCompras.getModel().getValueAt(renglon, 6);
+           if(estado == Estado.Cerrado || estado == Estado.Cancelado){
+               JOptionPane.showMessageDialog(this, "Ocurrió un error, esta compra se encuentra deshabilitada", "Compra cerrada o cancelada", JOptionPane.ERROR_MESSAGE);
+           }else{
+               int idOrdenCompra = Integer.parseInt(tblOrdenesCompras.getModel().getValueAt(renglon, 0).toString());
+                int resultado = JOptionPane.showConfirmDialog(this, "¿Esta seguro que quiere cancelar esta orden?", "Confirmacion", JOptionPane.YES_NO_OPTION);
+                if(resultado == JOptionPane.YES_OPTION){
+                    OrdenCompra ordenCompra = OrdenCompraDAO.obtenerPorId(idOrdenCompra);
+                    OrdenCompraDAO.editar(ordenCompra.getId(), ordenCompra.getFolio(), ordenCompra.getFecha(), ordenCompra.getProveedor(), ordenCompra.getSubTotal(), ordenCompra.getTotal(), Estado.Cancelado);
+                    cargarTable(); 
+                }  
+           } 
+       }else{
+           JOptionPane.showMessageDialog(this, "Ocurrió un error, seleccione una orden", "Error al seleccionar", JOptionPane.ERROR_MESSAGE);
+       }
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     
     private void cargarTable(){
