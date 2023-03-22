@@ -8,10 +8,15 @@ import java.util.List;
 import mx.itson.benito.entidades.ArticuloComprado;
 
 /**
- *
- * @author carlo
+ * Clase de operaciones basicas
+ * @author Carlos Daniel Rebollo Toledo 
  */
 public class Operaciones {
+    /**
+     * Metodo para calcular el subTotal
+     * @param articulosComprados Lista de articulos comprados para sumar sus precios
+     * @return El subTotal
+     */
     public static double calcularSubTotal(List<ArticuloComprado> articulosComprados){
         double subTotal = 0;
         
@@ -21,7 +26,11 @@ public class Operaciones {
        
         return subTotal;
     }
-    
+    /**
+     * Metodo para calcular el Total
+     * @param subTotal Valor donde se agregara el iva
+     * @return El Total
+     */
     public static double calcularTotal(double subTotal){
         double total = 0;
         

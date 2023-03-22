@@ -13,8 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 /**
- *
- * @author carlo
+ * Clase relacionada a los atributos de un articulo 
+ * @author Carlos Daniel Rebollo Toledo
  */
 @Entity
 public class Articulo {

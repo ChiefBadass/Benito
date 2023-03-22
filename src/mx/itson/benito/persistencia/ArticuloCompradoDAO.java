@@ -15,12 +15,12 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 /**
- *
- * @author carlo
+ * Clase de persistencia entre un articulo comprado y la base de datos
+ * @author Carlos Daniel Rebollo Toledo
  */
 public class ArticuloCompradoDAO {
     /**
-     * Metodo para obtener a todos los conductores
+     * Metodo para obtener a todos los articulos comprados
      * @return Una lista de conductores
      */
     public static List<ArticuloComprado> obtenerTodos(){
@@ -35,7 +35,13 @@ public class ArticuloCompradoDAO {
         }
     return articulos;
     }
-    
+    /**
+     * Metodo para guardar un articulo comprado
+     * @param articulo Articulo que se va a guardar
+     * @param cantidad Cantidad del articulo
+     * @param ordenCompra Id de la compra
+     * @return True si el articulo se guardo bien
+     */
     public static boolean guardar(Articulo articulo, int cantidad, OrdenCompra ordenCompra){
     boolean resultado = false;    
     try{
@@ -58,7 +64,11 @@ public class ArticuloCompradoDAO {
     }
     return resultado;
     }
-    
+    /**
+     * Metodo para obtener el id de un articulo comprado
+     * @param id Id para buscar el articulo
+     * @return El articulo seleccionado
+     */
     public static ArticuloComprado obtenerPorId(int id){
         ArticuloComprado articulo = null;
         try{
@@ -70,7 +80,11 @@ public class ArticuloCompradoDAO {
     return articulo;
     }
 
-    
+    /**
+     * Metodo para eliminar un articulo comprado
+     * @param id Id del articulo
+     * @return True si el articulo se elimino correctamente
+     */
     public static boolean eliminar(int id){
     boolean resultado = false;
         try{

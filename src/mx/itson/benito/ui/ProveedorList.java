@@ -129,7 +129,7 @@ public class ProveedorList extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(0));
         cargarTable();
-        Main u = new Main();
+        
         
     }//GEN-LAST:event_formWindowOpened
 

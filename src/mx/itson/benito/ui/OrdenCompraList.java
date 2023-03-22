@@ -46,6 +46,7 @@ public class OrdenCompraList extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JMenuItem();
         btnEliminar = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        mVerCompra = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -113,6 +114,19 @@ public class OrdenCompraList extends javax.swing.JFrame {
             }
         });
         jMenuBar1.add(jMenu2);
+
+        mVerCompra.setText("Ver compra");
+        mVerCompra.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mVerCompraMouseClicked(evt);
+            }
+        });
+        mVerCompra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mVerCompraActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(mVerCompra);
 
         setJMenuBar(jMenuBar1);
 
@@ -212,6 +226,24 @@ public class OrdenCompraList extends javax.swing.JFrame {
        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void mVerCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVerCompraActionPerformed
+       
+    }//GEN-LAST:event_mVerCompraActionPerformed
+
+    private void mVerCompraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mVerCompraMouseClicked
+        int renglon = tblOrdenesCompras.getSelectedRow();
+       if(renglon != -1){                  
+               int idOrdenCompra = Integer.parseInt(tblOrdenesCompras.getModel().getValueAt(renglon, 0).toString());
+               VerCompra form = new VerCompra(this, true, idOrdenCompra );
+       
+               form.setVisible(true);
+               
+            
+       }else{
+           JOptionPane.showMessageDialog(this, "Ocurrió un error, seleccione una orden", "Error al seleccionar", JOptionPane.ERROR_MESSAGE);
+       }
+    }//GEN-LAST:event_mVerCompraMouseClicked
+
     
     private void cargarTable(){
         OrdenCompraDAO ordenCompra = new OrdenCompraDAO();
@@ -268,6 +300,7 @@ public class OrdenCompraList extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenu mVerCompra;
     private javax.swing.JTable tblOrdenesCompras;
     // End of variables declaration//GEN-END:variables
 }

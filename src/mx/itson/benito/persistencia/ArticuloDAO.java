@@ -14,8 +14,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 /**
- *
- * @author carlo
+ * Clase de persistencia de un articulo a la base de datos
+ * @author Carlos Daniel Rebollo Toledo
  */
 public class ArticuloDAO {
     /**
